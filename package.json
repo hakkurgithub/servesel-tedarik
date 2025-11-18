@@ -1,0 +1,19 @@
+{
+  "name": "sesa-yag-website",
+  "version": "1.0.0",
+  "description": "Sesa Yağ - Ayçiçeği Yağı Üretim ve Satış Web Sitesi",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "dev": "serve ."
+  },
+  "keywords": [
+    "ayçiçeği",
+    "yağ",
+    "sesa",
+    "üretim",
+    "satış"
+  ],
+  "author": "Sesa Yağ",
+  "license": "MIT"
+}
