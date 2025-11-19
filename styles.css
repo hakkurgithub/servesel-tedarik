@@ -1,3 +1,785 @@
+.testimonials {
+    background: #eef2f3;
+    padding: 3rem 0 2rem 0;
+}
+.testimonials .section-header {
+    text-align: center;
+    margin-bottom: 2.2rem;
+}
+.testimonial-grid {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.testimonial-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(44,62,80,0.09);
+    padding: 1.2rem 1.5rem 1.5rem 1.5rem;
+    min-width: 260px;
+    max-width: 340px;
+    flex: 1 1 260px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.testimonial-card .stars {
+    color: #f4b400;
+    margin-bottom: 0.5rem;
+}
+.testimonial-card p {
+    color: #444;
+    font-size: 1.02rem;
+    margin-bottom: 0.7rem;
+}
+.testimonial-author strong {
+    color: #223;
+    font-weight: bold;
+}
+.testimonial-author span {
+    color: #888;
+    font-size: 0.97rem;
+    margin-left: 0.5rem;
+}
+
+.contact {
+    background: #fff;
+    padding: 3rem 0 2rem 0;
+}
+.contact .section-header {
+    text-align: center;
+    margin-bottom: 2.2rem;
+}
+.contact-content {
+    display: flex;
+    gap: 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+}
+.contact-info {
+    flex: 1 1 260px;
+    min-width: 220px;
+    max-width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    color: #f4b400;
+    font-size: 1.2rem;
+}
+.info-item h4 {
+    color: #223;
+    font-size: 1.05rem;
+    margin-bottom: 0.2rem;
+}
+.info-item p {
+    color: #444;
+    font-size: 0.98rem;
+    margin: 0;
+}
+.contact-form {
+    flex: 1 1 340px;
+    min-width: 260px;
+    max-width: 420px;
+    background: #f8f8f8;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(44,62,80,0.07);
+    padding: 2rem 1.2rem 1.5rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.contact-form .form-group {
+    margin-bottom: 0.7rem;
+}
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.7rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    background: #fff;
+    margin-bottom: 0.2rem;
+    resize: none;
+}
+.contact-form button {
+    background: #f4b400;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    font-size: 1.05rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+}
+.contact-form button:hover {
+    background: #ff6f00;
+    color: #fff;
+}
+
+.footer {
+    background: #223142;
+    color: #fff;
+    padding: 2.5rem 0 1.2rem 0;
+}
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto 1.2rem auto;
+    justify-content: space-between;
+}
+.footer-section {
+    flex: 1 1 180px;
+    min-width: 180px;
+    max-width: 320px;
+    margin-bottom: 1.2rem;
+}
+.footer-section h3, .footer-section h4 {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 0.7rem;
+}
+.footer-section p, .footer-section ul, .footer-section form {
+    color: #e0e0e0;
+    font-size: 0.98rem;
+    margin-bottom: 0.5rem;
+}
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-section ul li {
+    margin-bottom: 0.3rem;
+}
+.footer-section ul li a {
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.footer-section ul li a:hover {
+    color: #f4b400;
+}
+.social-links a {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-right: 0.7rem;
+    transition: color 0.2s;
+}
+.social-links a:hover {
+    color: #f4b400;
+}
+.newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+.newsletter-form input {
+    flex: 1 1 120px;
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    background: #fff;
+}
+.newsletter-form button {
+    background: #f4b400;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+.newsletter-form button:hover {
+    background: #ff6f00;
+    color: #fff;
+}
+.footer-bottom {
+    text-align: center;
+    color: #b0b0b0;
+    font-size: 0.97rem;
+    margin-top: 1.2rem;
+}
+
+@media (max-width: 900px) {
+    .testimonial-grid {
+        flex-direction: column;
+        gap: 1.2rem;
+        align-items: center;
+    }
+    .footer-content {
+        flex-direction: column;
+        gap: 1.2rem;
+        align-items: flex-start;
+    }
+    .contact-content {
+        flex-direction: column;
+        gap: 1.2rem;
+        align-items: flex-start;
+    }
+}
+.production {
+    background: #fff;
+    padding: 3rem 0 2rem 0;
+}
+.production .section-header {
+    text-align: center;
+    margin-bottom: 2.2rem;
+}
+.production .section-header h2 {
+    font-size: 2rem;
+    color: #223;
+    margin-bottom: 0.3rem;
+}
+.production .section-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+.timeline {
+    position: relative;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 0.5rem;
+}
+.timeline:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 100%;
+    background: #f4b400;
+    border-radius: 4px;
+    z-index: 0;
+}
+.timeline-item {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    z-index: 1;
+}
+.timeline-icon {
+    background: #f4b400;
+    color: #fff;
+    border-radius: 50%;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+    margin-bottom: 0.7rem;
+    z-index: 2;
+}
+.timeline-content {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(44,62,80,0.09);
+    padding: 1.1rem 1.5rem;
+    min-width: 220px;
+    max-width: 320px;
+    text-align: left;
+    margin-bottom: 0.2rem;
+    z-index: 2;
+}
+.timeline-content h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    color: #223;
+}
+.timeline-content p {
+    color: #444;
+    font-size: 0.98rem;
+    margin-bottom: 0;
+}
+@media (max-width: 600px) {
+    .timeline-content {
+        min-width: 0;
+        max-width: 95vw;
+        padding: 0.8rem 0.5rem;
+    }
+    .timeline-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
+.products {
+    background: #eef2f3;
+    padding: 3rem 0 2rem 0;
+}
+.products-hero-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+}
+.products-hero-image img {
+    max-width: 520px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.13);
+    background: #fff;
+    padding: 0.5rem;
+}
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    justify-content: center;
+}
+.product-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(44,62,80,0.07);
+    padding: 1.2rem 1rem 1.5rem 1rem;
+    margin-bottom: 0;
+    transition: box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 340px;
+}
+.product-card:hover {
+    box-shadow: 0 4px 24px rgba(44,62,80,0.13);
+}
+.product-card .product-image {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+.product-card img {
+    max-width: 120px;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+    background: #f8f8f8;
+    padding: 0.2rem;
+}
+.product-card .product-info h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    color: #223;
+}
+.product-card .product-info p {
+    color: #444;
+    font-size: 0.98rem;
+    margin-bottom: 0.5rem;
+}
+.product-card .product-price {
+    margin-bottom: 0.7rem;
+}
+.product-card .btn-cart {
+    background: #f4b400;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    margin-top: auto;
+    width: 100%;
+    transition: background 0.2s, color 0.2s;
+}
+.product-card .btn-cart:hover {
+    background: #ff6f00;
+    color: #fff;
+}
+.badge, .badge.best, .badge.organic {
+    font-size: 0.85rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 8px;
+    background: #f4b400;
+    color: #fff;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+.badge.best { background: #ff6f00; }
+.badge.organic { background: #43a047; }
+
+@media (max-width: 900px) {
+    .products-hero-image img {
+        max-width: 95vw;
+    }
+    .product-grid {
+        gap: 1.2rem;
+    }
+}
+@media (max-width: 600px) {
+    .products-hero-image img {
+        max-width: 99vw;
+    }
+    .product-card {
+        min-height: 260px;
+        padding: 0.7rem 0.5rem 1rem 0.5rem;
+    }
+}
+.about {
+    background: #fff;
+    padding: 3rem 0 2rem 0;
+}
+.about-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+.about-text {
+    flex: 1 1 340px;
+    min-width: 280px;
+    max-width: 520px;
+}
+.about-text h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.7rem;
+    color: #223;
+}
+.about-text p {
+    color: #444;
+    margin-bottom: 0.7rem;
+    font-size: 1.05rem;
+}
+.about-text ul.check-list {
+    margin: 1.2rem 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+.about-text ul.check-list li {
+    color: #f4b400;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    font-size: 1rem;
+}
+.about-image {
+    flex: 1 1 260px;
+    min-width: 220px;
+    max-width: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.13);
+    background: #f8f8f8;
+    padding: 0.3rem;
+}
+.about .section-header {
+    text-align: center;
+    margin-bottom: 2.2rem;
+}
+.about .section-header h2 {
+    font-size: 2rem;
+    color: #223;
+    margin-bottom: 0.3rem;
+}
+.about .section-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+@media (max-width: 900px) {
+    .about-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .about-image {
+        max-width: 90vw;
+    }
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.04);
+}
+.navbar .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 2rem;
+}
+.logo span {
+    color: #f4b400;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-left: 0.3rem;
+}
+.nav-menu {
+    display: flex;
+    gap: 1.2rem;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.nav-menu li a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+.nav-menu li a:hover {
+    color: #f4b400;
+}
+.hamburger { display: none; }
+
+.hero.hero-image {
+    background: url('https://raw.githubusercontent.com/hakkurgithub/images/main/sesa-yag-hero.png') center center/cover no-repeat;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-top: 70px;
+}
+.hero.hero-image .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(44,62,80,0.45);
+    z-index: 1;
+    pointer-events: none;
+}
+.hero.hero-image .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2.5rem 1rem 2.5rem 1rem;
+    text-shadow: 0 2px 16px rgba(44,62,80,0.25);
+}
+.hero.hero-image .hero-content h1 {
+    font-size: 2.6rem;
+    font-weight: bold;
+    margin-bottom: 1.2rem;
+    color: #fff;
+}
+.hero.hero-image .hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+.hero.hero-image .btn-primary {
+    background: #fff;
+    color: #f4b400;
+    border: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0.8rem 2.2rem;
+    border-radius: 24px;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+    transition: background 0.2s, color 0.2s;
+}
+.hero.hero-image .btn-primary:hover {
+    background: #f4b400;
+    color: #fff;
+}
+
+@media (max-width: 1024px) {
+    .hero.hero-image {
+        min-height: 70vh;
+        padding-top: 60px;
+    }
+    .hero.hero-image .hero-content h1 {
+        font-size: 2rem;
+    }
+}
+@media (max-width: 768px) {
+    .navbar .container {
+        padding: 0.5rem 1rem;
+    }
+    .hero.hero-image {
+        min-height: 60vh;
+        padding-top: 50px;
+    }
+    .hero.hero-image .hero-content h1 {
+        font-size: 1.3rem;
+    }
+    .hero.hero-image .hero-content p {
+        font-size: 1rem;
+    }
+    .hero.hero-image .btn-primary {
+        font-size: 1rem;
+        padding: 0.7rem 1.2rem;
+    }
+}
+@media (max-width: 480px) {
+    .hero.hero-image {
+        min-height: 40vh;
+        padding-top: 40px;
+    }
+    .hero.hero-image .hero-content {
+        padding: 1.2rem 0.2rem;
+    }
+    .hero.hero-image .hero-content h1 {
+        font-size: 1.05rem;
+    }
+    .hero.hero-image .btn-primary {
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+    }
+}
+/* Responsive ve görsel iyileştirmeler */
+.hero.hero-image {
+    background: url('https://raw.githubusercontent.com/hakkurgithub/images/main/sesa-yag-hero.png') center center/cover no-repeat;
+    min-height: 480px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+}
+.hero.hero-image .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    text-shadow: 0 2px 12px rgba(44,62,80,0.25);
+}
+.hero.hero-image .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(44,62,80,0.35);
+    z-index: 1;
+    pointer-events: none;
+}
+
+section {
+    padding: 3rem 0 2rem 0;
+}
+
+.section-header h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.section-header p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.product-card img,
+.about-image img,
+.products-hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(44,62,80,0.10);
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(44,62,80,0.07);
+    padding: 1.2rem 1rem 1.5rem 1rem;
+    margin-bottom: 1.5rem;
+    transition: box-shadow 0.2s;
+}
+.product-card:hover {
+    box-shadow: 0 4px 24px rgba(44,62,80,0.13);
+}
+
+.btn, .btn-primary, .btn-cart {
+    font-size: 1.1rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+    .hero.hero-image {
+        min-height: 340px;
+    }
+    section {
+        padding: 2rem 0 1.2rem 0;
+    }
+    .section-header h2 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero.hero-image {
+        min-height: 220px;
+        padding: 0 0.5rem;
+    }
+    .hero.hero-image .hero-content {
+        padding: 1.2rem 0.2rem;
+        font-size: 1rem;
+    }
+    .about-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+    .products-hero-image img {
+        border-radius: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero.hero-image {
+        min-height: 120px;
+    }
+    .hero.hero-image .hero-content h1 {
+        font-size: 1.1rem;
+    }
+    .btn, .btn-primary, .btn-cart {
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+    }
+}
 /* Hero görseli ve overlay için özel stiller */
 .hero.hero-image {
     background: url('https://raw.githubusercontent.com/hakkurgithub/images/main/sesa-yag-hero.png') center center/cover no-repeat;
