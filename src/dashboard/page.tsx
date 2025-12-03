@@ -3,41 +3,39 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
-  // Oturumu kontrol et (Sunucu tarafında)
   const session = await getServerSession(authOptions);
 
-  // Eğer giriş yapılmamışsa, giriş sayfasına geri gönder
   if (!session) {
     redirect("/api/auth/signin");
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10 font-sans">
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8">
-        
-        <h1 className="text-3xl font-bold text-green-600 mb-6">
-          ✅ Giriş Başarılı!
-        </h1>
-        
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Admin Paneline Hoş Geldiniz
-        </h2>
-        
-        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
-          <p className="text-gray-700"><strong>Email:</strong> {session.user?.email}</p>
-          <p className="text-gray-700"><strong>Rol:</strong> {session.user?.role || "Tanımsız"}</p>
-          <p className="text-gray-700"><strong>Şirket:</strong> {session.user?.company || "Tanımsız"}</p>
+    <div className="min-h-screen bg-gray-50 p-8 font-sans">
+      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+        <h1 className="text-3xl font-bold text-green-600 mb-2">🎉 Giriş Başarılı!</h1>
+        <p className="text-gray-500 mb-8">Yönetim paneline hoş geldiniz.</p>
+
+        <div className="bg-blue-50 border border-blue-100 rounded-xl p-6 space-y-3">
+          <div className="flex items-center">
+            <span className="font-semibold text-blue-900 w-24">Email:</span>
+            <span className="text-blue-700">{session.user?.email}</span>
+          </div>
+          <div className="flex items-center">
+            <span className="font-semibold text-blue-900 w-24">Rol:</span>
+            <span className="px-3 py-1 bg-blue-200 text-blue-800 rounded-full text-xs font-bold">
+              {session.user?.role || "USER"}
+            </span>
+          </div>
         </div>
 
         <div className="mt-8">
             <a 
               href="/api/auth/signout" 
-              className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-lg transition-colors"
+              className="inline-block px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-colors shadow-md"
             >
               Çıkış Yap
             </a>
         </div>
-
       </div>
     </div>
   );
