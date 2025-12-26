@@ -1,8 +1,10 @@
 import { getServerSession } from "next-auth";
-import { authOptions, prisma } from "@/lib/auth";
+import { authOptions } from "@/lib/auth"; // Sadece auth ayarları
+import { prisma } from "@/lib/prisma";    // <--- YENİ: Prisma'yı kendi dosyasından çekiyoruz
 import { redirect } from "next/navigation";
 import DashboardClient from "@/components/DashboardClient"; 
 
+// ... kodun geri kalanı aynı kalsın
 export default async function DashboardPage() {
   // 1. Oturum Kontrolü
   const session = await getServerSession(authOptions);

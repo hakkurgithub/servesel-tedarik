@@ -37,18 +37,25 @@ export const authOptions: NextAuthOptions = {
           user.password
         );
 
-        if (!isCorrectPassword) {
+       if (!isCorrectPassword) {
           throw new Error("Hatalı şifre");
         }
 
-        return user;
+        // DÜZELTME: ID'yi string'e çevirerek yeni bir obje döndürüyoruz
+        return {
+          id: user.id.toString(), // Number -> String dönüşümü
+          email: user.email,
+          role: user.role,
+          name: user.company || "", // Varsa şirket adını isim olarak alalım
+          // İhtiyaç duyulan diğer alanları buraya ekleyebilirsin
+        };
       },
     }),
   ],
   callbacks: {
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id as string;
+        session.user.id = token.id = user.id;
         session.user.role = token.role as string;
       }
       return session;
