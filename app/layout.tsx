@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "./globals.css"; // <--- BU SATIR ÇOK ÖNEMLİ!
+// ... diğer importlar
 import Header from "@/components/Header";
 import AuthProvider from "@/components/AuthProvider"; // 1. Yeni eklediğimiz
 import { CartProvider } from "@/components/CartProvider"; // 2. Sepet sağlayıcısı
