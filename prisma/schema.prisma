@@ -13,7 +13,7 @@ model User {
   id        String    @id @default(cuid())
   email     String    @unique
   password  String
-  name      String?   // <-- HATA ÇÖZEN SATIR
+  name      String?   // <--- İŞTE BU EKSİK! Bunu eklemezsek çalışmaz.
   role      Role      @default(BUYER)
   company   String?
   taxNo     String?
@@ -46,8 +46,8 @@ model Product {
   slug        String   @unique
   description String?
   price       Float
-  image       String?  // Ana resim
-  images      String[] // <-- ÇOKLU RESİM LİSTESİ
+  image       String?
+  images      String[] // <--- ÇOKLU RESİM ÖZELLİĞİ
   category    String?
   stock       Int      @default(0)
   link        String?
