@@ -13,6 +13,7 @@ model User {
   id        String    @id @default(cuid())
   email     String    @unique
   password  String
+  name      String?   // <--- EKSİK OLAN BU SATIRI EKLEDİK (İsteğe bağlı isim)
   role      Role      @default(BUYER)
   company   String?
   taxNo     String?
@@ -43,21 +44,17 @@ model Category {
 model Product {
   id          String   @id @default(cuid())
   name        String
-  slug        String   @unique  // <-- EKSİK OLAN BU EKLENDİ
+  slug        String   @unique
   description String?
   price       Float
   image       String?
   category    String?
   stock       Int      @default(0)
-  
-  // Yeni Eklenen Alanlar
-  link        String?  // Ürün/Tedarikçi Linki
+  link        String?
   isActive    Boolean  @default(true)
-
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   
-  // İlişkiler
   OrderItems   OrderItem[]
 }
 
@@ -69,20 +66,17 @@ model Order {
   items         OrderItem[]
   total         Float
   status        String      @default("Hazırlanıyor") 
-  paymentMethod String      @default("Havale/EFT")  // <-- BU SATIRI EKLE
+  paymentMethod String      @default("Havale/EFT")
   createdAt     DateTime    @default(now())
 }
 
-// --- SİPARİŞ DETAYI (ARA TABLO) ---
+// --- SİPARİŞ DETAYI ---
 model OrderItem {
   id        String  @id @default(cuid())
-  
   orderId   String
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  
   productId String
   product   Product @relation(fields: [productId], references: [id])
-  
   quantity  Int
-  price     Float   // O anki satış fiyatı
+  price     Float
 }
