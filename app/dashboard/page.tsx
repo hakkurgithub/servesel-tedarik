@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ShoppingCart, Search, LogOut, Trash2, Facebook, Linkedin, MessageCircle, ExternalLink } from "lucide-react";
+import { ShoppingCart, Search, LogOut, Trash2, Facebook, Linkedin, MessageCircle, ExternalLink, Check } from "lucide-react";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -11,13 +11,13 @@ export default function DashboardPage() {
   const [cart, setCart] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  // Hangi ürüne tıklandıysa onun ID'sini tutar (Animasyon için)
+  const [addedProductId, setAddedProductId] = useState<string | null>(null);
 
-  // Oturum Kontrolü
   useEffect(() => {
     if (status === "unauthenticated") router.push("/login");
   }, [status, router]);
 
-  // 1. Ürünleri Çek
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -30,19 +30,15 @@ export default function DashboardPage() {
     };
     fetchProducts();
     
-    // 2. Sepeti Hafızadan Yükle (Eski sepeti hatırla)
     const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
+    if (savedCart) setCart(JSON.parse(savedCart));
   }, []);
 
-  // 3. Sepet Değişince Hafızaya Kaydet
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  // Sepete Ekle
+  // YENİ SEPETE EKLEME FONKSİYONU (Alert yok, donma yok)
   const addToCart = (product: any) => {
     const existing = cart.find((item) => item.id === product.id);
     if (existing) {
@@ -50,18 +46,18 @@ export default function DashboardPage() {
     } else {
       setCart([...cart, { ...product, quantity: 1 }]);
     }
-    alert("Ürün sepete eklendi!");
+    
+    // Buton üzerindeki yazıyı değiştir ve 1 saniye sonra geri al
+    setAddedProductId(product.id);
+    setTimeout(() => setAddedProductId(null), 1000);
   };
 
-  // Sepetten Hızlı Çıkar (Özet kısmından)
   const removeFromCart = (id: string) => {
     setCart(cart.filter((item) => item.id !== id));
   };
 
-  // Toplam Tutar
   const totalAmount = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
-  // Sosyal Medya Paylaş
   const shareProduct = (platform: string, product: any) => {
     const url = window.location.href;
     const text = `${product.name} - ${product.price} TL.`;
@@ -78,17 +74,13 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
-      
-      {/* ÜST BAR */}
       <div className="bg-white shadow-sm p-4 mb-6 sticky top-0 z-20">
         <div className="container mx-auto flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold text-blue-900">{session?.user?.name || "Bayi Paneli"}</h1>
             <p className="text-gray-500 text-xs">Hoşgeldiniz</p>
           </div>
-          
           <div className="flex items-center gap-4">
-             {/* Sepet İkonu - Tıklayınca Sepet Sayfasına Gider */}
              <button onClick={() => router.push("/cart")} className="relative p-2 text-gray-600 hover:text-blue-600">
                 <ShoppingCart size={24} />
                 {cart.length > 0 && (
@@ -97,7 +89,6 @@ export default function DashboardPage() {
                     </span>
                 )}
              </button>
-
              <button onClick={() => router.push("/api/auth/signout")} className="text-red-500 text-xs font-bold border border-red-200 px-3 py-1 rounded hover:bg-red-50">
                 Çıkış
              </button>
@@ -106,8 +97,6 @@ export default function DashboardPage() {
       </div>
 
       <div className="container mx-auto px-4 flex flex-col lg:flex-row gap-8">
-        
-        {/* SOL TARAF: ÜRÜNLER */}
         <div className="flex-1">
           <div className="relative mb-6">
             <Search className="absolute left-3 top-3 text-gray-400" size={20} />
@@ -143,12 +132,17 @@ export default function DashboardPage() {
                   )}
 
                   <div className="flex gap-2 mt-auto">
-                     <button onClick={() => addToCart(product)} className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 font-bold text-sm shadow-blue-200 shadow-md transition-all active:scale-95">
-                       Sepete Ekle
+                     <button 
+                       onClick={() => addToCart(product)} 
+                       className={`flex-1 py-2 rounded-lg font-bold text-sm shadow-md transition-all active:scale-95 flex items-center justify-center gap-2
+                       ${addedProductId === product.id 
+                            ? "bg-green-600 text-white shadow-green-200" 
+                            : "bg-blue-600 text-white shadow-blue-200 hover:bg-blue-700"}`}
+                     >
+                       {addedProductId === product.id ? <><Check size={18}/> Eklendi</> : "Sepete Ekle"}
                      </button>
                   </div>
                   
-                  {/* Sosyal Medya */}
                   <div className="flex justify-center gap-4 mt-4 pt-3 border-t bg-gray-50 -mx-4 -mb-4 pb-4">
                     <button onClick={() => shareProduct('whatsapp', product)} className="text-green-500 hover:scale-110 transition-transform"><MessageCircle size={20}/></button>
                     <button onClick={() => shareProduct('facebook', product)} className="text-blue-600 hover:scale-110 transition-transform"><Facebook size={20}/></button>
@@ -160,13 +154,11 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* SAĞ TARAF: SEPET ÖZETİ (Read-Only) */}
         <div className="hidden lg:block lg:w-80">
           <div className="bg-white p-5 rounded-xl shadow-lg border border-gray-100 sticky top-24">
             <h2 className="text-lg font-bold mb-4 flex items-center gap-2 text-slate-700">
               <ShoppingCart size={20} className="text-blue-600"/> Sepet Özeti
             </h2>
-
             {cart.length === 0 ? (
               <p className="text-gray-400 text-center py-6 text-sm">Sepetiniz boş.</p>
             ) : (
@@ -184,17 +176,12 @@ export default function DashboardPage() {
                     </div>
                   ))}
                 </div>
-
                 <div className="border-t pt-3">
                   <div className="flex justify-between text-base font-bold text-slate-800 mb-3">
                     <span>Toplam</span>
                     <span>{totalAmount.toLocaleString('tr-TR')} ₺</span>
                   </div>
-                  
-                  <button 
-                    onClick={() => router.push("/cart")}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-lg transition-colors text-sm"
-                  >
+                  <button onClick={() => router.push("/cart")} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-lg transition-colors text-sm">
                     Sepete Git & Düzenle
                   </button>
                 </div>
@@ -202,7 +189,6 @@ export default function DashboardPage() {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );

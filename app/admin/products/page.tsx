@@ -157,11 +157,17 @@ export default function AdminProductsPage() {
           <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl font-bold mb-4">{editingProduct.id ? 'Ürünü Düzenle' : 'Yeni Ürün Ekle'}</h2>
             <form onSubmit={handleUpdate} className="space-y-3">
-              <div>
-                <label className="text-xs font-bold text-gray-500">Ürün Adı</label>
-                <input className="w-full border p-2 rounded" required
-                  value={editingProduct.name} onChange={(e) => setEditingProduct({...editingProduct, name: e.target.value})} />
-              </div>
+              <div className="flex flex-col gap-2">
+  <label className="text-xs font-bold text-gray-500">Ürün Özellikleri</label>
+  <textarea
+    rows={4} // Kutunun yüksekliği
+    className="w-full border p-2 rounded"
+    placeholder="Ürün içeriği, faydaları ve detaylarını buraya yazınız..."
+    // Veritabanındaki 'description' alanına bağlıyoruz:
+    value={editingProduct.description || ""} 
+    onChange={(e) => setEditingProduct({...editingProduct, description: e.target.value})}
+  />
+</div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <label className="text-xs font-bold text-gray-500">Fiyat</label>
