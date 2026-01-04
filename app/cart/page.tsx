@@ -7,18 +7,30 @@ export default function CartPage() {
   const router = useRouter();
   const [cart, setCart] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   
-  // Ödeme Yöntemi Seçimi
-  const [paymentMethod, setPaymentMethod] = useState("Havale/EFT");
+  // Varsayılan Ödeme Yöntemi
+  const [paymentMethod, setPaymentMethod] = useState("Kredi Kartı");
 
+  // ⚠️ KENDİ NUMARANI YAZ
+  const MY_PHONE_NUMBER = "905555555555"; 
+
+  // 1. ADIM: Hafızayı Güvenli Oku
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
-    if (savedCart) setCart(JSON.parse(savedCart));
+    if (savedCart) {
+      try {
+        const parsedCart = JSON.parse(savedCart);
+        if (Array.isArray(parsedCart)) setCart(parsedCart);
+      } catch (e) { console.error(e); }
+    }
+    setIsLoaded(true);
   }, []);
 
+  // 2. ADIM: Değişince Kaydet
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    if (isLoaded) localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart, isLoaded]);
 
   const increaseQty = (id: string) => {
     setCart(cart.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
@@ -32,34 +44,53 @@ export default function CartPage() {
   };
 
   const removeItem = (id: string) => {
-    if (confirm("Silmek istiyor musunuz?")) setCart(cart.filter(item => item.id !== id));
+    if (confirm("Bu ürünü silmek istediğinize emin misiniz?")) {
+        setCart(cart.filter(item => item.id !== id));
+    }
   };
 
   const totalAmount = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
+  // --- SİPARİŞİ TAMAMLA VE WHATSAPP'A GÖNDER ---
   const completeOrder = async () => {
     if (cart.length === 0) return;
     setLoading(true);
 
     try {
+      // 1. Veritabanına Kaydet
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
             items: cart, 
             total: totalAmount,
-            paymentMethod: paymentMethod // Seçilen ödeme yöntemini gönder
+            paymentMethod: paymentMethod 
         }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        // BAŞARILI MESAJI VE YÖNLENDİRME
-        alert(`✅ Sipariş Alındı! \n\nLütfen ödemeyi aşağıdaki IBAN'a yapınız.\nSipariş No: #${data.orderId}`);
+        // 2. WhatsApp Mesajını Hazırla
+        const urunListesi = cart.map(i => `▪ ${i.quantity} Adet - ${i.name}`).join("\n");
+        
+        const mesaj = `📦 *YENİ SİPARİŞ VAR!* (No: #${data.orderId})\n\n🛒 *Sepet İçeriği:*\n${urunListesi}\n\n💰 *Toplam Tutar:* ${totalAmount.toLocaleString("tr-TR")} ₺\n💳 *Ödeme Yöntemi:* ${paymentMethod}`;
+        
+        // 3. WhatsApp'a Yönlendir
+        const whatsappUrl = `https://wa.me/${MY_PHONE_NUMBER}?text=${encodeURIComponent(mesaj)}`;
+        
+        // Önce sepeti temizle
         setCart([]);
         localStorage.removeItem("cart");
+        
+        alert("✅ Siparişiniz veritabanına kaydedildi.\nWhatsApp üzerinden iletiliyor...");
+        
+        // WhatsApp'ı yeni sekmede aç
+        window.open(whatsappUrl, "_blank");
+        
+        // Ana sayfaya dön
         router.push("/dashboard");
+
       } else {
         alert("❌ Hata: " + data.error);
       }
@@ -69,6 +100,8 @@ export default function CartPage() {
       setLoading(false);
     }
   };
+
+  if (!isLoaded) return <div className="p-20 text-center text-gray-400">Sepet yükleniyor...</div>;
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -92,63 +125,60 @@ export default function CartPage() {
               <div className="flex-1 space-y-4">
                  {cart.map((item) => (
                     <div key={item.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
-                        <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
-                            {item.image && <img src={item.image} className="w-full h-full object-cover" />}
+                        <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                            {item.image ? (
+                                <img src={item.image} className="w-full h-full object-cover" alt={item.name}/>
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">Resim Yok</div>
+                            )}
                         </div>
                         <div className="flex-1">
-                            <h3 className="font-bold">{item.name}</h3>
+                            <h3 className="font-bold text-sm md:text-base">{item.name}</h3>
                             <p className="text-sm text-gray-500">{item.price} ₺</p>
                         </div>
                         <div className="flex items-center gap-2 bg-gray-50 p-1 rounded-lg">
                             <button onClick={() => decreaseQty(item.id)} className="p-1 hover:bg-white rounded"><Minus size={14} /></button>
-                            <span className="font-bold w-6 text-center">{item.quantity}</span>
+                            <span className="font-bold w-6 text-center text-sm">{item.quantity}</span>
                             <button onClick={() => increaseQty(item.id)} className="p-1 hover:bg-white rounded"><Plus size={14} /></button>
                         </div>
-                        <div className="font-bold w-20 text-right">{(item.price * item.quantity).toLocaleString("tr-TR")} ₺</div>
-                        <button onClick={() => removeItem(item.id)} className="text-red-400 hover:text-red-600"><Trash2 size={18} /></button>
+                        <div className="font-bold w-20 text-right text-sm md:text-base">{(item.price * item.quantity).toLocaleString("tr-TR")} ₺</div>
+                        <button onClick={() => removeItem(item.id)} className="text-red-400 hover:text-red-600 p-2"><Trash2 size={18} /></button>
                     </div>
                  ))}
               </div>
 
-              {/* SAĞ: Ödeme ve Özet */}
+              {/* SAĞ: Ödeme Alanı */}
               <div className="lg:w-96 space-y-6">
-                  
-                  {/* ÖDEME YÖNTEMİ SEÇİMİ */}
                   <div className="bg-white p-6 rounded-xl shadow border border-gray-100">
                       <h3 className="text-lg font-bold mb-4">Ödeme Yöntemi</h3>
                       
                       <div className="space-y-3">
-                          <label className={`flex items-center gap-3 p-3 border rounded-lg cursor-pointer transition-all ${paymentMethod === 'Havale/EFT' ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600' : 'hover:bg-gray-50'}`}>
-                              <input type="radio" name="payment" value="Havale/EFT" checked={paymentMethod === 'Havale/EFT'} onChange={(e) => setPaymentMethod(e.target.value)} />
-                              <Banknote className="text-blue-600"/>
+                          {/* SEÇENEK 1: KREDİ KARTI */}
+                          <label className={`flex items-center gap-3 p-3 border rounded-lg cursor-pointer transition-all ${paymentMethod === 'Kredi Kartı' ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600' : 'hover:bg-gray-50'}`}>
+                              <input type="radio" name="payment" value="Kredi Kartı" checked={paymentMethod === 'Kredi Kartı'} onChange={(e) => setPaymentMethod(e.target.value)} />
+                              <CreditCard className="text-blue-600"/>
                               <div>
-                                  <div className="font-bold text-sm">Havale / EFT</div>
-                                  <div className="text-xs text-gray-500">%0 Komisyon</div>
+                                  <div className="font-bold text-sm">Kredi Kartı</div>
+                                  <div className="text-xs text-gray-500">Güvenli Ödeme</div>
                               </div>
                           </label>
 
-                          <label className={`flex items-center gap-3 p-3 border rounded-lg cursor-pointer transition-all ${paymentMethod === 'Kapıda Ödeme' ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600' : 'hover:bg-gray-50'}`}>
-                              <input type="radio" name="payment" value="Kapıda Ödeme" checked={paymentMethod === 'Kapıda Ödeme'} onChange={(e) => setPaymentMethod(e.target.value)} />
-                              <CreditCard className="text-green-600"/>
+                          {/* SEÇENEK 2: HAVALE / EFT */}
+                          <label className={`flex items-center gap-3 p-3 border rounded-lg cursor-pointer transition-all ${paymentMethod === 'Havale/EFT' ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600' : 'hover:bg-gray-50'}`}>
+                              <input type="radio" name="payment" value="Havale/EFT" checked={paymentMethod === 'Havale/EFT'} onChange={(e) => setPaymentMethod(e.target.value)} />
+                              <Banknote className="text-green-600"/>
                               <div>
-                                  <div className="font-bold text-sm">Kapıda Ödeme</div>
-                                  <div className="text-xs text-gray-500">Nakit veya Kredi Kartı</div>
+                                  <div className="font-bold text-sm">Havale / EFT</div>
+                                  <div className="text-xs text-gray-500">Banka Transferi</div>
                               </div>
                           </label>
                       </div>
-
-                      {/* IBAN KUTUSU (Sadece Havale seçiliyse görünür) */}
-                      {paymentMethod === 'Havale/EFT' && (
-                          <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-yellow-800">
-                              <p className="font-bold mb-1">🏦 Banka Bilgileri:</p>
-                              <p>TR12 0006 1000 0000 0000 1234 56</p>
-                              <p className="font-bold mt-1">Alıcı: Servesel Tedarik A.Ş.</p>
-                              <p className="text-xs mt-2 text-gray-600">*Açıklamaya sipariş numaranızı yazınız.</p>
-                          </div>
-                      )}
+                      
+                      <div className="mt-3 text-xs text-gray-500 text-center">
+                          * Siparişiniz alındıktan sonra detaylar iletilecektir.
+                      </div>
                   </div>
 
-                  {/* ÖZET VE ONAY */}
                   <div className="bg-white p-6 rounded-xl shadow border border-gray-100">
                       <div className="flex justify-between text-2xl font-bold text-slate-800 mb-6">
                           <span>Toplam</span>
@@ -160,7 +190,7 @@ export default function CartPage() {
                         disabled={loading}
                         className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                       >
-                        {loading ? "İşleniyor..." : <><CheckCircle size={20} /> Siparişi Onayla</>}
+                        {loading ? "İşleniyor..." : <><CheckCircle size={20} /> Siparişi Onayla & WhatsApp</>}
                       </button>
                   </div>
               </div>
